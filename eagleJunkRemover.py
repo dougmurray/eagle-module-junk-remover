@@ -26,6 +26,15 @@ for i, element in enumerate(editMe):
 for i in sorted(locations, reverse=True):
     del editMe[i]
 
+locations2 = []
+for i, element in enumerate(editMe):
+    if re.match(unnecessaryTail, element):
+        try:
+            tester = editMe[i+1]
+        except IndexError:
+            tester = 'null'
+        if re.match(unnecessaryTail, tester):
+            locations2.append(i)
 
 # Export to EAGLE board file (xml)
 outFile = open('testChanged.brd', 'w')

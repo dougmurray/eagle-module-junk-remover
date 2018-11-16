@@ -1,13 +1,16 @@
-# eagle-module-junk-remover.py
-#!usr/bin/env python27
+# eagleJunkRemover.py
+# Imports an EAGLE board file (xml) and removes extraneous sequential 
+# signals that are not actually used, which reduces the file size greatly, 
+# allowing faster load times.   
+# WARNING: In reality you should use a proper XML parser, 
+# but for simple editing like removing sequential xml code
+# from an EAGLE board file, this python script will do.
+# Author: Doug Murray
+# Date: 2018-11-16
 import re
-"""Removed unused signals in board XML file that CADSoft Eagle produces
-   when modules are imported.
 
-   Author:  Douglass Murray
-   Date:  2016-11-01
-"""
-
+# The extra EAGLE board elements are always empty data signal tags
+# that begin with <signal name=...> and end with </signal>. 
 unnecessaryLeader = re.compile('<signal name*')
 unnecessaryTail = re.compile('</signal>')
 
@@ -16,6 +19,9 @@ inFile = open('file.brd', 'r')
 editMe = inFile.readlines()
 inFile.close()
 
+# Find locations of empty signal tags by finding where
+# xml <signal name=...> and </signal> tags are consecutive with no
+# data between them.
 locations = []
 for i, element in enumerate(editMe):
     if re.match(unnecessaryLeader, element):
@@ -23,9 +29,13 @@ for i, element in enumerate(editMe):
         if re.match(unnecessaryTail, tester):
             locations.append(i)
 
+# Remove the front of the unnecessary signal tags (<signal name=...>)
 for i in sorted(locations, reverse=True):
     del editMe[i]
 
+# Now that all the front empty signals tags are gone
+# find the locations of the signal end tags that are now
+# consecutively </signal></signal>
 locations2 = []
 for i, element in enumerate(editMe):
     if re.match(unnecessaryTail, element):
@@ -36,6 +46,7 @@ for i, element in enumerate(editMe):
         if re.match(unnecessaryTail, tester):
             locations2.append(i)
 
+# Remove the end of the unnecessary signal tags that were just found
 for i in sorted(locations2, reverse=True):
     del editMe[i]
 

@@ -39,6 +39,10 @@ for i, element in enumerate(editMe):
 for i in sorted(locations2, reverse=True):
     del editMe[i]
 
+# After all the deletions there will always be one signal end tag
+# not removed due to how for loops work, so remove the last one
+del editMe[locations2[0]]
+
 # Export to EAGLE board file (xml)
 outFile = open('testChanged.brd', 'w')
 outFile.writelines(editMe)

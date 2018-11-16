@@ -27,4 +27,7 @@ for i in sorted(locations, reverse=True):
     del editMe[i]
 
 
-
+# Export to EAGLE board file (xml)
+outFile = open('testChanged.brd', 'w')
+outFile.writelines(editMe)
+outFile.close()

@@ -7,6 +7,7 @@
 # from an EAGLE board file, this python script will do.
 # Author: Doug Murray
 # Date: 2018-11-16
+import sys
 import re
 
 # The extra EAGLE board elements are always empty data signal tags
@@ -15,7 +16,8 @@ unnecessaryLeader = re.compile('<signal name*')
 unnecessaryTail = re.compile('</signal>')
 
 # Import file
-inFile = open('before.brd', 'r')
+filename = sys.argv[1]
+inFile = open(filename, 'r')
 editMe = inFile.readlines()
 inFile.close()
 
@@ -55,6 +57,6 @@ for i in sorted(locations2, reverse=True):
 del editMe[locations2[0]]
 
 # Export to EAGLE board file (xml)
-outFile = open('after.brd', 'w')
+outFile = open(filename, 'w')
 outFile.writelines(editMe)
 outFile.close()

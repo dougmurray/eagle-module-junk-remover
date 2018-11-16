@@ -2,6 +2,7 @@
 # Imports an EAGLE board file (xml) and removes extraneous sequential 
 # signals that are not actually used, which reduces the file size greatly, 
 # allowing faster load times.   
+# Run eagleJunkRemover.py /path/to/file/filename.brd
 # WARNING: In reality you should use a proper XML parser, 
 # but for simple editing like removing sequential xml code
 # from an EAGLE board file, this python script will do.

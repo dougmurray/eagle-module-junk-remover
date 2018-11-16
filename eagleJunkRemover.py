@@ -15,7 +15,7 @@ unnecessaryLeader = re.compile('<signal name*')
 unnecessaryTail = re.compile('</signal>')
 
 # Import file
-inFile = open('file.brd', 'r')
+inFile = open('before.brd', 'r')
 editMe = inFile.readlines()
 inFile.close()
 
@@ -55,6 +55,6 @@ for i in sorted(locations2, reverse=True):
 del editMe[locations2[0]]
 
 # Export to EAGLE board file (xml)
-outFile = open('testChanged.brd', 'w')
+outFile = open('after.brd', 'w')
 outFile.writelines(editMe)
 outFile.close()

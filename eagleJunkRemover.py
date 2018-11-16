@@ -36,6 +36,9 @@ for i, element in enumerate(editMe):
         if re.match(unnecessaryTail, tester):
             locations2.append(i)
 
+for i in sorted(locations2, reverse=True):
+    del editMe[i]
+
 # Export to EAGLE board file (xml)
 outFile = open('testChanged.brd', 'w')
 outFile.writelines(editMe)

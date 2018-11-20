@@ -53,9 +53,21 @@ for i, element in enumerate(editMe):
 for i in sorted(locations2, reverse=True):
     del editMe[i]
 
-# After all the deletions there will always be one signal end tag
-# not removed due to how for loops work, so remove the last one
-del editMe[locations2[0]]
+# After all the deletions there may be one signal end tag
+# not removed due to how for loops work, or not.  To see if there is,
+# first iterate and find the line number of where the first signal end tag is,
+# then you reverse iterate from that point to check to see if there is a 
+# missing signal front tag or not.  If there isn't a mising front signal tag 
+# then remove this first signal end tag found.
+for i, element in enumerate(editMe):
+    if re.match(unnecessaryTail, element):
+        endPoint = i # line number to start iteration back to the top of doc
+        # now reverse iterate from starting endPoint up to top of doc
+        for i, element in enumerate(editMe[::endPoint]):
+            if re.match(unnecessaryLeader, element):
+                del editMe[locations2[0]]
+            else:
+                'null'
 
 # Export to EAGLE board file (xml)
 outFile = open(filename, 'w')
